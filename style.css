@@ -1,0 +1,82 @@
+/* style.css */
+#body1 {
+    text-align: center;
+    margin-top: 50px;
+}
+
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Individual Button Styles */
+#btn1 {
+    background-color: deeppink;
+    height: 70px;
+    width: 130px;
+}
+
+#btn2 {
+    background-color: rgb(216, 110, 110);
+    height: 70px;
+    width: 130px;
+}
+
+#btn3 {
+    background-color: burlywood;
+    height: 70px;
+    width: 130px;
+}
+
+#btn4 {
+    background-color: lightgreen;
+    height: 70px;
+    width: 130px;
+}
+
+#btn5 {
+    background-color: rgb(114, 220, 178);
+    height: 70px;
+    width: 130px;
+}
+
+#btn6 {
+    background-color: rgb(117, 230, 117);
+    height: 70px;
+    width: 130px;
+}
+
+#btn7 {
+    background-color: rgb(107, 211, 175);
+    height: 70px;
+    width: 130px;
+}
+
+#btn8 {
+    background-color: rgb(0, 183, 255);
+    height: 70px;
+    width: 130px;
+}
+
+#btn9 {
+    background-color: rgb(0, 136, 255);
+    height: 70px;
+    width: 130px;
+}
+
+#btn10 {
+    background-color: rgb(118, 118, 228);
+    height: 70px;
+    width: 130px;
+}

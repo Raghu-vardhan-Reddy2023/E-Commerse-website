@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - MyShop</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Filters Section */
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .filter-category, .filter-price {
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 48%;
+        }
+
+        .filter-category h3, .filter-price h3 {
+            margin-bottom: 10px;
+        }
+
+        .filter-category ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .filter-category li {
+            margin-bottom: 5px;
+        }
+
+        /* Products Section */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+
+        .product-item h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product-item p {
+            color: #666;
+        }
+
+        .no-products {
+            text-align: center;
+            color: red;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include Navbar -->
+
+    <main>
+        <!-- Products List -->
+        <section id="product-list" class="product-list">
+            <div class="container">
+                <h2>Products</h2>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <div class="filter-category">
+                        <h3>Category</h3>
+                        <ul>
+                            <li><input type="checkbox" class="filter-checkbox" data-category="Category 1"> Category 1</li>
+                            <li><input type="checkbox" class="filter-checkbox" data-category="Category 2"> Category 2</li>
+                            <li><input type="checkbox" class="filter-checkbox" data-category="Category 3"> Category 3</li>
+                        </ul>
+                    </div>
+                    <div class="filter-price">
+                        <h3>Price Range</h3>
+                        <input type="range" id="price-range" min="0" max="1000" step="10" oninput="updatePriceLabel()">
+                        <p>Max Price: ₹<span id="price-label">1000</span></p>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products" id="products-grid">
+                    <!-- Placeholder for products (JavaScript will populate this) -->
+                </div>
+
+                <!-- No products message -->
+                <p id="no-products" class="no-products" style="display: none;">No products found!</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer -->
+    <script>
+        // Example product data
+        const products = [
+            { id: 1, name: "Dresses", category: "Category 1", price: 300, image: "https://media.istockphoto.com/id/1404654875/photo/various-vintage-jackets-on-clothing-rack-in-second-hand-store.jpg?s=1024x1024&w=is&k=20&c=mle4SUfvACu9SqC0DoyY7H6RprTv5C_YliUblBd9xdg=" },
+            { id: 2, name: "Perfumes", category: "Category 2", price: 600, image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQY-p2diGfAbsYkCGDn2lpaqMu8RlwCzhWYrizHdW6P2YNi4596ZC3i-GIFqwGpoMoq_32izLx5fTVA6Q7AMhmomM8cEY3Xss5bseWF8lngVC8gLL4BjrxM" },
+            { id: 3, name: "Shoes", category: "Category 3", price: 150, image: "https://i.etsystatic.com/10921106/r/il/4a9516/1444484111/il_fullxfull.1444484111_o012.jpg" },
+            { id: 4, name: "Bags", category: "Category 1", price: 450, image: "https://assets.ajio.com/medias/sys_master/root/20230612/63dL/64872417d55b7d0c6360df14/-473Wx593H-466263547-brown-MODEL.jpg" }
+        ];
+
+        // Initialize product display
+        function displayProducts(filteredProducts) {
+            const productsGrid = document.getElementById('products-grid');
+            const noProductsMessage = document.getElementById('no-products');
+            
+            // Clear previous products
+            productsGrid.innerHTML = '';
+            noProductsMessage.style.display = 'none';
+
+            if (filteredProducts.length > 0) {
+                filteredProducts.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.classList.add('product-item');
+                    productItem.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>Price: ₹${product.price}</p>
+                    `;
+                    productsGrid.appendChild(productItem);
+                });
+            } else {
+                noProductsMessage.style.display = 'block';
+            }
+        }
+
+        // Filters
+        function applyFilters() {
+            const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox:checked')).map(input => input.getAttribute('data-category'));
+            const maxPrice = document.getElementById('price-range').value;
+
+            const filteredProducts = products.filter(product => {
+                const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+                const matchesPrice = product.price <= maxPrice;
+                return matchesCategory && matchesPrice;
+            });
+
+            displayProducts(filteredProducts);
+        }
+
+        // Price label update
+        function updatePriceLabel() {
+            const priceRange = document.getElementById('price-range').value;
+            document.getElementById('price-label').textContent = priceRange;
+            applyFilters();
+        }
+
+        // Add event listeners to filters
+        document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', applyFilters);
+        });
+
+        // Display all products on page load
+        displayProducts(products);
+    </script>
+</body>
+</html>
